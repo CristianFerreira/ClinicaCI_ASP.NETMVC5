@@ -1,0 +1,93 @@
+﻿@model IEnumerable<OutraClinica.Models.Paciente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="row form-group">
+        <strong style="font-family: sans-serif; font-size: large;">Pesquisar por titulo: </strong>
+            @Html.TextBox(name: "pesquisaNome", value: "", htmlAttributes: new { @class="form-control" , @placeholder="Filtre Aqui"})
+            <button type="submit" class="btn btn-info">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Filtrar
+            </button>
+        </div>
+
+}
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DataNascimento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.logradouro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.numero)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bairro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.observacoes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataNascimento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.logradouro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.numero)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bairro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.observacoes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PacienteID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PacienteID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PacienteID })
+        </td>
+    </tr>
+    <tr>
+    </tr>
+}
+
+</table>
+

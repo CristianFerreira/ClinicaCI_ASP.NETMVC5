@@ -1,0 +1,175 @@
+﻿@model OutraClinica.Models.Medico
+
+@{
+    Layout = null;
+    ViewBag.Title = "Edit";
+}
+<div class="modal-dialog">
+    <div class="modal-content">
+        @using (Html.BeginForm())
+        {
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.FuncionarioID)
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Editar Medico</h4>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                   
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control textarea", id="nome", @onkeyup = "ValidaNome()" } })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-md-9" id="msgErrorNome" style="display:none; color:red; background-color:red; "></div>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control textarea", id = "telefone", @onkeyup = "ValidaTelefone()" } })
+                            @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-md-9" id="msgErrorTelefone" style="display:none; color:red; background-color:red; "></div>
+                    </div>
+
+                   
+                   
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.rg, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.rg, new { htmlAttributes = new { @class = "form-control textarea", id = "rg", @onkeyup = "ValidaRG()" } })
+                            @Html.ValidationMessageFor(model => model.rg, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-md-9" id="msgErrorRG" style="display:none; color:red; background-color:red; "></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.endereco, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.endereco, new { htmlAttributes = new { @class = "form-control textarea" } })
+                            @Html.ValidationMessageFor(model => model.endereco, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-md-9"></div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.especialidades, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.especialidades, new { htmlAttributes = new { @class = "form-control textarea" } })
+                            @Html.ValidationMessageFor(model => model.especialidades, "", new { @class = "text-danger" })
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        <div class="col-lg-3"></div>
+                        <div class="col-md-9"></div>
+                    </div>          
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="modal-footer">
+                    <input type="submit" value="Salvar" class="btn btn-success" id="btnSalvar" />
+                    <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        }
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+
+
+<script>
+
+    $("#telefone").mask("(00) 0000-00009", { placeholder: "Ex: (51) 3366-66999" });
+
+    $("#rg").mask("99.999.999-9", { placeholder: "Ex: 99.999.999-9" });
+
+
+    function ValidaNome() {
+        var campo = document.getElementById("nome");
+        var btnSalvar = document.getElementById("btnSalvar");
+        var alertDiv = document.getElementById("msgErrorNome");
+        console.log(campo.value.length);
+        if (campo.value.length > 0 && campo.value.length < 3) {
+            btnSalvar.style = "display: none;"
+
+            alertDiv.style = "color:red;";
+            alertDiv.innerHTML = "* Nome deve ter no minimo 3 caracteres!";
+
+        } else if (campo.value.length == 0) {
+            btnSalvar.style = "display: none;"
+
+            alertDiv.style = "color:red;";
+            alertDiv.innerHTML = "* Campo nome é obrigatorio";
+        }
+        else {
+            btnSalvar.style = "";
+            alertDiv.style = "display: none";
+            alertDiv.value = " Nome deve ter no minimo 3 caracteres!";
+        };
+    }
+
+
+
+    function ValidaTelefone() {
+        var campo = document.getElementById("telefone");
+        var btnSalvar = document.getElementById("btnSalvar");
+        var alertDiv = document.getElementById("msgErrorTelefone");
+        console.log(campo.value.length);
+        if (campo.value.length > 0 && campo.value.length < 14) {
+            btnSalvar.style = "display: none;"
+
+            alertDiv.style = "color:red;";
+            alertDiv.innerHTML = "Telefone Invalido!";
+
+        } else if (campo.value.length == 0) {
+            btnSalvar.style = "display: none;"
+
+            alertDiv.style = "color:red;";
+            alertDiv.innerHTML = "* Campo Telefone é obrigatorio!";
+        }
+        else {
+            btnSalvar.style = "";
+            alertDiv.style = "display: none";
+            alertDiv.value = "* Campo Telefone é obrigatorio!";
+        };
+    }
+
+    function ValidaRG() {
+        var campo = document.getElementById("rg");
+        var btnSalvar = document.getElementById("btnSalvar");
+        var alertDiv = document.getElementById("msgErrorRG");
+        console.log(campo.value.length);
+        if (campo.value.length > 0 && campo.value.length < 12) {
+            btnSalvar.style = "display: none;"
+
+            alertDiv.style = "color:red;";
+            alertDiv.innerHTML = "RG Invalido!";
+        } else {
+            btnSalvar.style = "";
+            alertDiv.style = "display: none";
+
+        };
+    }
+    </script>
+

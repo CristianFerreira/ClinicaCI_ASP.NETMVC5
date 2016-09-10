@@ -1,0 +1,125 @@
+﻿@model IEnumerable<OutraClinica.Models.Consulta>
+
+@{
+    ViewBag.Title = "Proximas Consultas";
+}
+
+<h2 class="paddingTitulo">Proximas Consultas</h2>
+
+<table class="table1 table-bordered" id="myTable">
+    <thead>
+        <tr class="tabelaIndex">
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Paciente)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Medico)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.PlanoDeSaude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compareceu)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @*@Html.ActionLink(item.Paciente.nome, "EditObs", "Paciente", new { id = item.PacienteID }, null)*@
+                    @Html.DisplayFor(modelItem => item.Paciente.nome)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medico.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlanoDeSaude.nome)
+                </td>
+                <td>
+                    @if (item.Compareceu)
+                    {
+                        @Html.ActionLink("Sim", "MudaCompareceu", new { id = item.ConsultaID }, new { @class = "glyphicon glyphicon-ok btn btn-primary btn-xs" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Não", "MudaCompareceu", new { id = item.ConsultaID }, new { @class = "glyphicon glyphicon-remove btn btn-danger btn-xs" })
+                    }
+                </td>
+                <td style="text-align: right">
+
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.ConsultaID"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+
+                    @if (item.Compareceu == true)
+                    {
+                        <label> | </label>
+                        <button class="btn btn-success btn-xs observacao" data-id="@item.PacienteID">Observação</button>
+                    }
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+
+@section scripts{
+    <script>
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Details?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Excluir?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Edit?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+
+
+        $(".observacao").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("../Paciente/EditObs?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+    </script>
+
+}
+
+

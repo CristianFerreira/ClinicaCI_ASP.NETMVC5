@@ -1,0 +1,132 @@
+﻿@model IEnumerable<OutraClinica.Models.Consulta>
+
+
+@{
+    ViewBag.Title = "Lista";
+}
+
+<h2 class="paddingTitulo">Lista de Consultas</h2>
+
+<table class="table table-striped table-hover table-bordered" id="myTable">
+    <thead>
+        <tr class="tabelaIndex">
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Paciente)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Medico)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.Hora)
+            </th>
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.PlanoDeSaude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Compareceu)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paciente.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Medico.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hora)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlanoDeSaude.nome)
+                </td>
+                <td>
+                    @if (item.Compareceu)
+                    {
+                        <span>Sim</span>
+                    }
+                    else
+                    {
+                        <span>Não</span>
+                    }
+                </td>
+                <td style="text-align: right">
+                    @if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil edit" data-id="@item.ConsultaID"></button>
+                        <label> | </label>
+                    }
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.ConsultaID"><i class="glyphicon glyphicon-file"></i>Details</button>
+                    @if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+                    {
+
+                        <label> | </label>
+                            <button class="btn btn-danger deleteBtn  btn-xs glyphicon glyphicon-trash delete" data-id="@item.ConsultaID"></button>
+
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+@if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+{
+    <div class="form-group row">
+        <div class="col-md-4"></div>
+        <div class="col-md-2" style="text-align: center">
+            @Html.ActionLink(" Criar Nova Consulta", "Create", null, htmlAttributes: new { @class = "btn btn-success " })
+        </div>
+
+        <div class="col-md-2" style="text-align: center">
+            @Html.ActionLink("Consultas Futuras", "ProximasConsultas", null, htmlAttributes: new { @class = "btn btn-success " })
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+}
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(function () {
+                $(".details").click(function () {
+                    var id = $(this).attr("data-id");
+                    $("#modal").load("Details?id=" + id, function () {
+                        $("#modal").modal();
+                    })
+                });
+            })
+
+            $(".delete").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Delete?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+
+            $(".edit").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Edit?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        });
+    </script>
+
+}

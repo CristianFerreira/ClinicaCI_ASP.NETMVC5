@@ -1,0 +1,132 @@
+﻿@model IEnumerable<OutraClinica.Models.Medico>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+
+@{
+    ViewBag.Title = "Lista";
+}
+
+<h2 class="paddingTitulo">Lista de Medicos</h2>
+
+
+<table class="table1 table-bordered" id="myTable">
+    <thead>
+        <tr class="tabelaIndex">
+            <th id="cabecalhoTabela">
+                Nome
+            </th>
+            <th id="cabecalhoTabela">
+                Email
+            </th>
+
+            <th id="cabecalhoTabela">
+                Telefone
+            </th>
+          
+
+            <th id="cabecalhoTabela">
+                Especialidades
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                @*<td>
+        @Html.ActionLink(item.Nome, "ConsultasMedico", "Consulta", new { id = item.FuncionarioID }, null)
+    </td>*@
+                <td>
+                     @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.especialidades)
+                </td>
+                <td style="text-align: right">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil edit" data-id="@item.FuncionarioID"></button>
+                        <label> | </label>
+                    }
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.FuncionarioID"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <label> | </label>
+                        <button class="btn btn-danger deleteBtn  btn-xs glyphicon glyphicon-trash delete" data-id="@item.FuncionarioID"></button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: center">
+            
+            @Html.ActionLink("Criar Novo Médico", "RegisterMedico", "Account", null, htmlAttributes: new { @class = "btn btn-success " })
+        </div>
+    </div>
+}
+
+@section Scripts {
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#searchName').autocomplete({
+                source: '@Url.Action("NameFilter")'
+            });
+        })
+        </script>
+
+
+        <script>
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Details?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+      $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+      });
+
+      $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Edit?id=" + id, function () {
+                $("#modal").modal();
+            })
+      });
+
+      $(".create").click(function () {
+          $("#modal").load("Account/RegisterMedico", function () {
+              $("#modal").modal();
+          })
+      });
+</script>
+
+}

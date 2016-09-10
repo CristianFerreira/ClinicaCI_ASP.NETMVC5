@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OutraClinica.Models.Consulta>
+
+@{
+    ViewBag.Title = "ConsultasMedico";
+}
+
+<h2 class="paddingTitulo">Consultas Medico</h2>
+
+<table class="table1 table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanoDeSaude.nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hora)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Compareceu)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Paciente.nome, "EditObs", "Paciente", new { id = item.PacienteID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlanoDeSaude.nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hora)
+            </td>
+            <td>
+                @if (item.Compareceu)
+                {
+                    @Html.ActionLink("Sim", "MudaCompareceu", new { id = item.ConsultaID }, new { @class = "glyphicon glyphicon-ok btn btn-primary btn-xs" })
+                }
+                else
+                {
+                    @Html.ActionLink("Não", "MudaCompareceu", new { id = item.ConsultaID }, new { @class = "glyphicon glyphicon-remove btn btn-danger btn-xs" })
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Detalhes", "Details", new { id = item.ConsultaID }, new { @class = "btn btn-primary  btn-xs" })
+            </td>
+        </tr>
+    }
+
+</table>

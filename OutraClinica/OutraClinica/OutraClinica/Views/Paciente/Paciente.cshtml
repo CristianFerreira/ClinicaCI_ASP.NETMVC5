@@ -1,0 +1,163 @@
+﻿@model IEnumerable<OutraClinica.Models.Paciente>
+
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+@helper Truncate(string input, int length)
+{
+if (input == null)
+{
+        @input
+}
+else if (input.Length <= length)
+{
+        @input
+}
+else
+{
+        @input.Substring(0, length)<text>...</text>
+}
+}
+
+
+
+
+@{
+    ViewBag.Title = "Lista de Pacientes";
+}
+
+
+
+
+<h2 class="paddingTitulo">Lista de Pacientes</h2>
+
+
+<table class="table1 table-bordered " id="myTable">
+    <thead>
+        <tr class="tabelaIndex">
+            <th>
+                Nome
+            </th>
+            <th>
+                Telefone
+
+            </th>
+            <th>
+                Data Nascimento
+
+            </th>
+
+            <th>
+                Bairro
+
+            </th>
+            <th>
+                Estado
+
+            </th>
+            <th>
+                Observações
+
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataNascimento)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.bairro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.estado)
+                </td>
+                <td>
+                    @Truncate(item.observacoes, 20)
+                    @*@Html.DisplayFor(modelItem => item.observacoes)*@
+                </td>
+                <td>
+
+                    @if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil edit" data-id="@item.PacienteID"></button>
+                            <label> | </label>
+                    }
+                    @* @if (User.IsInRole("Medico"))
+                        {
+                            @Html.ActionLink("Observação ", "EditObs", new { id = item.PacienteID }, new { @class = "btn btn-success btn-xs" })
+                            <label> | </label>
+                        }*@
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.PacienteID"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+                    @if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+                    {
+                        <label> | </label>
+                            <button class="btn btn-danger deleteBtn  btn-xs glyphicon glyphicon-trash delete" data-id="@item.PacienteID"></button>
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+
+@if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+{
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: center; margin-top: 20px;">
+            @Html.ActionLink(" Criar Novo Paciente", "Create", null, htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+
+    <script>
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Edit?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Details?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+
+    </script>
+
+}
+
+
+

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<OutraClinica.Models.PlanoDeSaude>
+
+@{
+    ViewBag.Title = "Lista";
+}
+
+<h2 class="paddingTitulo">Lista de Planos de Saude</h2>
+
+<table class="table1 table-bordered" id="myTable">
+    <thead>
+        <tr class="tabelaIndex">
+            <th id="cabecalhoTabela">
+                @Html.DisplayNameFor(model => model.nome)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nome)
+                </td>
+                <td style="text-align: right">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil edit" data-id="@item.PlanoDeSaudeID"></button>
+                        <label> | </label>
+                    }
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.PlanoDeSaudeID"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <label> | </label>
+                        <button class="btn btn-danger deleteBtn  btn-xs glyphicon glyphicon-trash delete" data-id="@item.PlanoDeSaudeID"></button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: center">
+            @Html.ActionLink(" Criar Novo Plano de Saude", "Create", null, htmlAttributes: new { @class = "btn btn-success " })
+        </div>
+    </div>
+}
+
+@section Scripts {
+
+    <script>
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Edit?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Details?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+
+       
+    </script>
+
+}

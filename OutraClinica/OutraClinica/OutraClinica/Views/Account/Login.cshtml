@@ -1,0 +1,61 @@
+﻿@using OutraClinica.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<div class="fundoBody">
+
+
+    <div class="modal-dialog">
+        <div class="modal-content modalTransparente">
+            <section id="loginForm">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl },
+   FormMethod.Post, new { @class = "form-horizontal modalTransparente", role = "form", @style = "margin-top: 50px;" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h3 style="text-align:center; color:#000;">Acesso ao Sistema</h3>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label", @style = "color:#000;" })
+                        <div class="col-md-9">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label", @style = "color:#000;" })
+                        <div class="col-md-9">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-5 col-md-7">
+                            <div class="checkbox">
+                                @Html.CheckBoxFor(m => m.RememberMe)
+                                @Html.LabelFor(m => m.RememberMe)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8">
+                            <input type="submit" value="Entrar" class="btn btn-success" />
+                            <input type="button" value="Cancelar" class="btn btn-default" onclick="voltar();" />
+
+                            <script type="text/javascript">
+                                function voltar() {
+                                    window.location = "../home";
+                                }
+                            </script>
+
+                        </div>
+                    </div>
+
+                }
+            </section>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>

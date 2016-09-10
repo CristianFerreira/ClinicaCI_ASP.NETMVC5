@@ -1,0 +1,57 @@
+﻿@model OutraClinica.Models.Paciente
+
+@{
+    Layout = null;
+    ViewBag.Title = "Observações do Paciente";
+}
+
+
+
+<div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 180px;">
+
+        @using (Html.BeginForm())
+        {
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.PacienteID)
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Editar Paciente</h4>
+            </div>
+
+            @Html.AntiForgeryToken()
+
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+
+                    @Html.HiddenFor(model => model.PacienteID)
+                    @Html.HiddenFor(model => model.nome)
+                    @Html.HiddenFor(model => model.telefone)
+                    @Html.HiddenFor(model => model.DataNascimento)
+                    @Html.HiddenFor(model => model.logradouro)
+                    @Html.HiddenFor(model => model.numero)
+                    @Html.HiddenFor(model => model.bairro)
+                    @Html.HiddenFor(model => model.estado)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.observacoes, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.observacoes, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.observacoes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="modal-footer">
+                    <input type="submit" value="Salvar" class="btn btn-success" id="btnSalvar" />
+                    <input type="button" value="Cancelar" class="btn btn-default" data-dismiss="modal" />
+                </div>
+            </div>
+        }
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

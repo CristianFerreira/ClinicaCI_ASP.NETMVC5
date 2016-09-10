@@ -1,0 +1,162 @@
+﻿@model OutraClinica.Models.Consulta
+
+
+<link href="~/content/jquery.timepicker.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Cadastrar";
+}
+
+<h2 class="paddingTitulo" style="margin-left: 80px;">Criar Nova Consulta</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group col-lg-12">
+        <div class="form-horizontal">
+            <div class="col-lg-4 row"></div>
+            <div class="col-lg-8 row">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control", id = "DataConsulta", @readonly = "true", @Placeholder = "Selecione a data da consulta" } })
+                        @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Hora, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Hora, new { htmlAttributes = new { @class = "form-control", id = "Hora", @onChange = "ValidaHora()" } })
+                        @Html.ValidationMessageFor(model => model.Hora, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: -15px;">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10" id="msgErrorHora"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PlanoDeSaudeID, "Plano de Saude", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("PlanoDeSaudeID", null, "Selecione Plano de Saude", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PlanoDeSaudeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.PacienteID, "Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("PacienteID", null, "Selecione Paciente", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PacienteID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MedicoID, "Medico", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("MedicoID", null, "Selecione Medico", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.MedicoID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Criar Consulta" class="btn btn-success" id="btnCreate" />
+                        @Html.ActionLink("Cancelar", "ConsultasEmAndamento", null, htmlAttributes: new { @class = "btn btn-default", @style = "width: 120px; margin-left: 35px;" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script src="~/scripts/jquery.timepicker.js"></script>
+    <script>
+
+
+        $(function () {
+            $("#Data1").datepicker({
+                minDate: 0,
+                dateFormat: 'dd/MM/yy',
+                buttonText: "Select date",
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+
+
+        $(function () {
+
+            $("#Hora").timepicker({
+                'minTime': '9:00am',
+                'maxTime': '6:00pm',
+                'scrollDefault': 'now',
+                'timeFormat': 'H:i',
+            });
+
+        });
+
+
+        $(function () {
+            $("#DataConsulta").datepicker({
+
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                /* monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],*/
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                nextText: 'Próximo',
+                prevText: 'Anterior',
+                dateFormat: 'dd/MM/yy',
+                buttonText: "Select date",
+                changeMonth: true,
+                changeYear: true,
+                minDate: 1,
+                maxDate: 365,
+
+            });
+        });
+
+
+
+        function ValidaHora() {
+            var campo = document.getElementById("Hora");
+            var btnSalvar = document.getElementById("btnCreate");
+            var alertDiv = document.getElementById("msgErrorHora");
+
+            if (campo.value == "09:00" || campo.value == "09:30" || campo.value == "10:00" || campo.value == "10:30" || campo.value == "11:00" || campo.value == "11:30" || campo.value == "12:00" || campo.value == "12:30" || campo.value == "13:00" || campo.value == "13:30" || campo.value == "14:00" || campo.value == "14:30" || campo.value == "15:00" || campo.value == "15:30" || campo.value == "16:00" || campo.value == "16:30" || campo.value == "17:00" || campo.value == "17:30" || campo.value == "18:00") {
+                btnSalvar.style = "";
+                alertDiv.style = "display: none";
+                alertDiv.value = "Hora invalida!";
+            } else {
+                btnSalvar.style = "";
+                alertDiv.style = "display: none";
+                alertDiv.value = "Hora invalida!";
+            }
+
+            if (campo.value.length > 0 && campo.value != "09:00" && campo.value != "09:30" && campo.value != "10:00" && campo.value != "10:30" && campo.value != "11:00" && campo.value != "11:30" && campo.value != "12:00" && campo.value != "12:30" && campo.value != "13:00" && campo.value != "13:30" && campo.value != "14:00" && campo.value != "14:30" && campo.value != "15:00" && campo.value != "15:30" && campo.value != "16:00" && campo.value != "16:30" && campo.value != "17:00" && campo.value != "17:30" && campo.value != "18:00") {
+                btnSalvar.style = "display: none;"
+                alertDiv.style = "color:red;";
+                alertDiv.innerHTML = "Hora invalida!";
+            }
+        }
+    </script>
+
+
+
+
+
+}

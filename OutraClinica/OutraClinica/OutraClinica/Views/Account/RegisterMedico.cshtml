@@ -1,0 +1,218 @@
+﻿@model OutraClinica.Models.Medico
+
+
+<link href="~/content/jquery.timepicker.css" rel="stylesheet" />
+<script src="~/scripts/jquery.timepicker.js"></script>
+@{
+    ViewBag.Title = "RegisterMedico";
+}
+
+
+
+
+<h2 style="margin-left: 80px">Cadastro de Medico</h2>
+
+
+
+
+@using (Html.BeginForm() )
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group col-lg-12">
+    <div class="form-horizontal">
+        <div class="col-lg-4 row"></div>
+            <div class="col-lg-8 row">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", @pattern = ".{3,}"} })
+                        @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telefone, new { htmlAttributes = new { @class = "form-control", id = "telefone", @onkeyup = "ValidaTelefone1()" } })
+                        @Html.ValidationMessageFor(model => model.Telefone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.rg, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.rg, new { htmlAttributes = new { @class = "form-control", id = "rg" } })
+                        @Html.ValidationMessageFor(model => model.rg, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.endereco, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.endereco, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.endereco, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @PlaceHolder = "Ex: exemplo@hotmail.com", } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="password">Senha</label>
+                    <div class="col-md-10">
+                        <input id="password" name="password" type="password" class="form-control text-box single-line", onkeyup = "ValidaSenha()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10" id="msgErrorSenha"></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="password">Repetir Senha</label>
+                    <div class="col-md-10">
+                        <input id="password1" name="password1" type="password" class="form-control text-box single-line" , onkeyup="ValidaSenha()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10" id="msgErrorSenha1"></div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.especialidades, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.especialidades, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.especialidades, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-2"></div>
+                    <div class="col-md-10"></div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Criar Medico" class="btn btn-success" id="btnCreate"  onclick="return ValidaSenha()"/>
+                        @Html.ActionLink("Cancelar", "ListaMedicos", "Medico", null, htmlAttributes: new { @class = "btn btn-default", @style = "width: 120px; margin-left: 35px;" })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+}
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $("#telefone").mask("(00) 0000-00009", { placeholder: "Ex: (51) 3366-66999" });
+        $("#rg").mask("99.999.999-9", { placeholder: "Ex: 99.999.999-9" });
+
+        function ValidaTelefone() {
+            var campo = document.getElementById("telefone");
+            var btnSalvar = document.getElementById("btnCreate");
+            var alertDiv = document.getElementById("msgErrorTelefone");
+            console.log(campo.value.length);
+            if (campo.value.length > 0 && campo.value.length < 14) {
+                btnSalvar.style = "display: none;"
+
+                alertDiv.style = "color:red;";
+                alertDiv.innerHTML = "Telefone Invalido!";
+
+            } else if (campo.value.length == 0) {
+                btnSalvar.style = "display: none;"
+
+                alertDiv.style = "color:red;";
+                alertDiv.innerHTML = "* Campo Telefone é obrigatorio!";
+            }
+            else {
+                btnSalvar.style = "";
+                alertDiv.style = "display: none";
+                alertDiv.value = "* Campo Telefone é obrigatorio!";
+            };
+        }
+
+
+        function ValidaSenha() {
+            var campo = document.getElementById("password");
+            var campo1 = document.getElementById("password1")
+            var btnCreate = document.getElementById("btnCreate");
+            var alertDiv = document.getElementById("msgErrorSenha");
+            var alertDiv1 = document.getElementById("msgErrorSenha1");
+            console.log("teste "+campo.value);
+            console.log(campo1.value);
+           
+            if (campo.value.length > 0 && campo.value.length < 6) {
+                alertDiv1.style = "display: none";
+                alertDiv.style = "color:red;";
+                alertDiv.innerHTML = "Senha deve ter no minimo 6 digitos!";
+                return false;
+            } else if (campo1.value.length > 0 && campo1.value.length < 6) {
+                alertDiv1.style = "color:red;";
+                alertDiv1.innerHTML = "Repetir Senha deve ter no minimo 6 digitos!";
+                alertDiv.style = "display: none";
+                return false;
+            }
+
+            if (campo.value.length == 0) {
+                alertDiv1.style = "display: none";
+                alertDiv.style = "color:red;";
+                alertDiv.innerHTML = "Campo Senha é obrigatorio!";              
+                return false;
+            } else if (campo.value.length >= 6 && campo1.value.length == 0) {
+                alertDiv.style = "display: none";
+                alertDiv1.style = "color:red;";
+                alertDiv1.innerHTML = "Campo Repetir Senha é obrigatorio!";
+                return false;
+            }
+            else if(campo.value != campo1.value){
+                    alertDiv.style = "display: none";
+                    alertDiv1.style = "color:red;";
+                    alertDiv1.innerHTML = "As senhas não correspondem.";
+                    return false;
+                }else{
+                btnCreate.style = "";
+                alertDiv1.style = "display: none";
+                alertDiv.style = "display: none";
+                alertDiv.value = " As senhas não correspondem.";
+                alertDiv1.value = " As senhas não correspondem.";
+                }
+            };
+        
+
+
+
+
+    </script>
+   
+}

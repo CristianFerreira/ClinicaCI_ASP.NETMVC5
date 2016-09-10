@@ -1,0 +1,26 @@
+﻿@model OutraClinica.Models.Funcionario
+
+@{
+    Layout = null;
+    ViewBag.Title = "Details";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Detalhes do Funcionario</h4>
+        </div>
+        <div class="modal-body">
+            <p><h5><strong>ID</strong>: @Html.DisplayFor(model => model.FuncionarioID)</h5></p>
+            <p><strong>@Html.DisplayNameFor(model => model.Nome) </strong>: @Html.DisplayFor(model => model.Nome)</p>
+            <p><strong>@Html.DisplayNameFor(model => model.Telefone) </strong>: @Html.DisplayFor(model => model.Telefone)</p>
+            <p><strong>@Html.DisplayNameFor(model => model.rg) </strong>: @Html.DisplayFor(model => model.rg)</p>
+            <p><strong>@Html.DisplayNameFor(model => model.endereco) </strong>: @Html.DisplayFor(model => model.endereco)</p>
+            <p><strong>@Html.DisplayNameFor(model => model.email) </strong>: @Html.DisplayFor(model => model.email)</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

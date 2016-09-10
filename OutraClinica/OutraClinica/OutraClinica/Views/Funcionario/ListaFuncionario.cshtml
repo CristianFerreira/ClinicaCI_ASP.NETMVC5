@@ -1,0 +1,116 @@
+﻿@model IEnumerable<OutraClinica.Models.Funcionario>
+
+@{
+    ViewBag.Title = "ListaFuncionario";
+}
+
+<h2 class="paddingTitulo">Lista de Funcionarios</h2>
+
+
+<table id="myTable" class="table1 table-bordered" cellspacing="0" width="100%">
+    <thead>
+        <tr class="tabelaIndex">
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Telefone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.endereco)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.endereco)
+                </td>
+                <td style="text-align: right">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <button class="btn btn-success btn-xs glyphicon glyphicon-pencil edit" data-id="@item.FuncionarioID"></button>
+                        <label> | </label>
+                    }
+                    <button class="btn btn-primary  btn-xs details" data-id="@item.FuncionarioID"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <label> | </label>
+                        <button class="btn btn-danger deleteBtn  btn-xs glyphicon glyphicon-trash delete" data-id="@item.FuncionarioID"></button>
+                    }
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="modal" id="modal">
+
+</div>
+
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="form-group">
+        <div class="col-md-12" style="text-align: center">
+            @Html.ActionLink("Criar Novo Secretario", "RegisterFuncionario", "Account", null, htmlAttributes: new { @class = "btn btn-success " })
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".details").click(function () {
+                var id = $(this).attr("data-id");
+                $("#modal").load("Details?id=" + id, function () {
+                    $("#modal").modal();
+                })
+            });
+        })
+    </script>
+    <script>
+        $(".edit").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Edit?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+    </script>
+
+    <script>
+        $(".delete").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Delete?id=" + id, function () {
+                $("#modal").modal();
+            })
+        });
+    </script>
+
+
+}

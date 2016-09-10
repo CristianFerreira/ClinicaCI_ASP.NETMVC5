@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Clinica</title>
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/site.css")
+    @Styles.Render("~/Content/jqueryui")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    <link href="~/content/datatables/css/datatables.bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body style="padding-top: 70px !important;">
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+            </div>
+
+            @if (Request.IsAuthenticated)
+            {
+                @Html.ActionLink("Clinica CI", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <ul class="nav navbar-nav">
+
+                    <li>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Consultas <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Pendentes", "Index", "Consulta/ConsultasEmAndamento")</li>
+                            <li>@Html.ActionLink("Finalizadas", "Index", "Consulta/consultasPassadas")</li>
+                        </ul>
+                    <li />
+
+                    <li>
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Medicos <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if (User.IsInRole("Secretario") || User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Lista de Medicos", "Index", "Medico/ListaMedicos")</li>
+                            }
+                            @if (User.IsInRole("Medico") || User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Minhas Consultas", "Index", "Consulta/ProximasConsultas")</li>
+                            }
+                        </ul>
+                    <li />
+
+                    <li>@Html.ActionLink("Pacientes", "Paciente", "Paciente")</li>
+
+                    @if (User.IsInRole("Admin"))
+                {
+                        <li>@Html.ActionLink("Secretarios", "Index", "Funcionario/ListaFuncionario")</li>
+                    }
+                    <li>@Html.ActionLink("Planos de Saúde", "PlanoDeSaude", "PlanoDeSaude")</li>
+
+
+
+                </ul>
+
+            }
+            else
+            {
+                @Html.ActionLink("Bem vindo a Clinica CI", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Sobre Nós", "SobreNos", "Home")</li>
+                </ul>
+
+            }
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+
+    <div class="container body-content">
+        @RenderBody()
+        <div class="modal" id="modal">
+
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="~/scripts/jquery-1.12.3.js"></script>
+    <script src="~/scripts/jquery.mask.min.js"></script>
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryui")
+    @RenderSection("scripts", required: false)
+    <script src="~/scripts/datatables/jquery.datatables.min.js"></script>
+    <script src="~/scripts/datatables/datatables.bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "_MENU_ resultados por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": " ",
+                    "searchPlaceholder": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Ordenar colunas de forma ascendente",
+                        "sSortDescending": ": Ordenar colunas de forma descendente"
+                    }
+                }
+
+            });
+        });
+
+        $(".login").click(function () {
+            var id = $(this).attr("data-id");
+            $("#modal").load("Account/Login", function () {
+                $("#modal").modal();
+            })
+        });
+    </script>
+
+
+
+</body>
+</html>

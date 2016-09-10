@@ -1,0 +1,31 @@
+﻿@model OutraClinica.Models.Medico
+
+@{
+    Layout = null;
+    ViewBag.Title = "Detalhes";
+}
+
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Detalhes do Medico</h4>
+        </div>
+        <div class="modal-body">
+            <p><strong>ID</strong>: @Html.DisplayFor(model => model.FuncionarioID)</p>
+                <p><strong>Nome</strong>: @Html.DisplayFor(model => model.Nome)</p>
+                <p><strong>Email</strong>: @Html.DisplayFor(model => model.email)</p>
+                <p><strong>Telefone</strong>: @Html.DisplayFor(model => model.Telefone)</p>
+            <p><h5><strong>RG</strong>: @Html.DisplayFor(model => model.rg)</h5></p>
+            <p><h5><strong>Endereço</strong>: @Html.DisplayFor(model => model.endereco)</h5></p>
+            <p><h5><strong>Especialidades</strong>: @Html.DisplayFor(model => model.especialidades)</h5></p>
+            
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

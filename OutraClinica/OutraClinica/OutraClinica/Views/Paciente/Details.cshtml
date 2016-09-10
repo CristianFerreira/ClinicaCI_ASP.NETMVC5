@@ -1,0 +1,99 @@
+﻿@model OutraClinica.Models.Paciente
+
+@{
+    Layout = null;
+    ViewBag.Title = "Details";
+}
+
+@{
+    string campoVazio = "Não foi informado.";
+    string campoVazioObservacao = "não possui nenhuma observação.";
+}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title">Detalhes do Paciente</h4>
+        </div>
+        <div class="modal-body">
+            <p><h5><strong>ID</strong>: @Html.DisplayFor(model => model.PacienteID)</h5></p>
+            <p><strong>Nome</strong>: @Html.DisplayFor(model => model.nome)</p>
+            <p><strong>@Html.DisplayNameFor(model => model.telefone) </strong>: @Html.DisplayFor(model => model.telefone)</p>
+
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.DataNascimento) </strong>:
+                @if (Model.DataNascimento == null)
+                {
+                    @campoVazio
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.DataNascimento)
+                }
+            </p>
+
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.logradouro) </strong>:
+                @if (Model.logradouro == null)
+                {
+                    @campoVazio
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.logradouro)
+                }
+            </p>
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.numero) </strong>:
+                @if (Model.numero == null)
+                {
+                    @campoVazio
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.numero)
+                }
+            </p>
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.bairro) </strong>:
+                @if (Model.bairro == null)
+                {
+                    @campoVazio
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.bairro)
+                }
+            </p>
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.estado) </strong>:
+                @if (Model.estado == null)
+                {
+                    @campoVazio
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.estado)
+                }
+            </p>
+            <p>
+                <strong>@Html.DisplayNameFor(model => model.observacoes) </strong>:
+                @if (Model.observacoes == null)
+                {
+                    @campoVazioObservacao
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.observacoes)
+                }
+            </p>
+
+           
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
